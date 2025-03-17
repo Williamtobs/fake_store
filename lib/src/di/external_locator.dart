@@ -12,6 +12,7 @@ void _initExternal() {
       )..interceptors.addAll(
           [
             LoggingInterceptor(logger: locator()),
+            TokenInterceptor(storageService: locator()),
             DataParserInterceptor(),
           ],
         ),

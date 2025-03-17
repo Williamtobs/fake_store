@@ -1,3 +1,9 @@
 part of 'locator.dart';
 
-void _initClients() {}
+void _initClients() {
+  locator.registerLazySingleton<AuthClient>(
+    () => AuthClient(
+      locator(),
+    ),
+  );
+}

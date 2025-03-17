@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:fake_store/src/services/user_storage_service.dart';
 import 'package:logger/logger.dart';
 
 class LoggingInterceptor extends Interceptor {
@@ -40,6 +41,19 @@ class LoggingInterceptor extends Interceptor {
   }
 }
 
+class TokenInterceptor extends Interceptor {
+  TokenInterceptor({required this.storageService});
+
+  final UserStorageService storageService;
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    final someToken = storageService.getToken() ?? '';
+    options.headers['Authorization'] = 'Bearer $someToken';
+    super.onRequest(options, handler);
+  }
+}
+
 class DataParserInterceptor extends Interceptor {
   DataParserInterceptor();
 
@@ -52,7 +66,7 @@ class DataParserInterceptor extends Interceptor {
     try {
       modifiedResponse = Response<dynamic>(
         requestOptions: response.requestOptions,
-        data: (response.data as Map<String, dynamic>)['data'],
+        data: (response.data as Map<String, dynamic>),
         statusCode: response.statusCode,
         extra: response.extra,
         headers: response.headers,
