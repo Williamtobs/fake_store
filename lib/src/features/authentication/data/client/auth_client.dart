@@ -12,6 +12,6 @@ abstract class AuthClient {
   @POST('auth/login')
   Future<dynamic> login(@Body() UserInfo body);
 
-  @POST('users/{id}')
+  @GET('users/{id}')
   Future<UserResponse> getUser(@Path() int id);
 }

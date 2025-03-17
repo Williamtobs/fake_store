@@ -622,12 +622,13 @@ class _$InitialImpl implements _Initial {
                 other.viewState == viewState) &&
             (identical(other.errorMessage, errorMessage) ||
                 other.errorMessage == errorMessage) &&
-            const DeepCollectionEquality().equals(other.userInfo, userInfo));
+            (identical(other.userInfo, userInfo) ||
+                other.userInfo == userInfo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, viewState, errorMessage,
-      const DeepCollectionEquality().hash(userInfo));
+  int get hashCode =>
+      Object.hash(runtimeType, viewState, errorMessage, userInfo);
 
   /// Create a copy of AuthenticationState
   /// with the given fields replaced by the non-null parameter values.

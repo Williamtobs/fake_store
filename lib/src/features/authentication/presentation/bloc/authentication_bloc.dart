@@ -42,16 +42,18 @@ class AuthenticationBloc
         emit(
           state.copyWith(
             viewState: ViewState.error,
-            errorMessage: failure.message!,
+            errorMessage: failure.message ?? 'Something went wrong',
           ),
         );
       },
       (data) {
-        debugPrint('Token: ${data}');
+        debugPrint('Token: $data');
         userStorageService.saveToken(data['token']);
-        emit(state.copyWith(viewState: ViewState.success));
       },
     );
+    if (result.isRight) {
+      add(const _GetUser());
+    }
   }
 
   FutureOr<void> _onLogout(
@@ -60,6 +62,7 @@ class AuthenticationBloc
   ) async {
     final userStorageService = locator<UserStorageService>();
     userStorageService.clearToken();
+    userStorageService.deleteUser();
     emit(const _Initial());
   }
 
