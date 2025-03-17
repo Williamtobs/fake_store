@@ -1,6 +1,6 @@
 part of 'locator.dart';
 
-void _initServices() async {
+Future<void> _initServices() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   final locator = GetIt.instance;
   locator.registerLazySingleton<SharedPreferences>(() => sharedPreferences);

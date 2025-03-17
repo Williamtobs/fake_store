@@ -21,11 +21,11 @@ part 'service_locator.dart';
 
 final locator = GetIt.instance;
 
-void initLocator() {
+Future<void> initLocator() async {
   _initExternal();
   _initClients();
   _initDataSource();
   _initRepositoryLocator();
   _initUseCaseLocator();
-  _initServices();
+  await _initServices();
 }

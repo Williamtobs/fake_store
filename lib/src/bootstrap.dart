@@ -36,7 +36,7 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   ]);
 
   //We initialize our locators here
-  initLocator();
+  await initLocator();
 
   runApp(await builder());
 }

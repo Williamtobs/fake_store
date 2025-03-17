@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/core/router/app_router.dart';
 import 'package:fake_store/src/di/locator.dart';
 import 'package:fake_store/src/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:fake_store/src/services/user_storage_service.dart';
 import 'package:fake_store/src/shared/widgets/dismiss_keyboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,8 +28,15 @@ class App extends StatelessWidget {
             )
           ],
           child: MaterialApp.router(
-            routerDelegate: appRouter.delegate(),
-            routeInformationParser: appRouter.defaultRouteParser(),
+            routerConfig: appRouter.config(deepLinkBuilder: (deepLink) {
+              debugPrint('DeepLink: $deepLink');
+              final userStorageService = locator<UserStorageService>();
+
+              if (userStorageService.getUser() != null) {
+                return const DeepLink.path('/main');
+              }
+              return deepLink;
+            }),
             debugShowCheckedModeBanner: false,
           ),
         ),
