@@ -14,14 +14,19 @@ class App extends StatelessWidget {
     return DismissKeyboard(
       child: ScreenUtilInit(
         designSize: const Size(375, 812),
-        builder: (context, _) => MultiBlocProvider(
-          providers: [],
-          child: MaterialApp.router(
-            routerDelegate: appRouter.delegate(),
-            routeInformationParser: appRouter.defaultRouteParser(),
-            debugShowCheckedModeBanner: false,
-          ),
+        builder: (context, _) => MaterialApp.router(
+          routerDelegate: appRouter.delegate(),
+          routeInformationParser: appRouter.defaultRouteParser(),
+          debugShowCheckedModeBanner: false,
         ),
+        // MultiBlocProvider(
+        //   providers: [],
+        //   child: MaterialApp.router(
+        //     routerDelegate: appRouter.delegate(),
+        //     routeInformationParser: appRouter.defaultRouteParser(),
+        //     debugShowCheckedModeBanner: false,
+        //   ),
+        // ),
       ),
     );
   }
