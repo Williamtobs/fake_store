@@ -40,14 +40,16 @@ class UserStorageServiceImpl implements UserStorageService {
 
   @override
   void saveUser(UserResponse? user) {
-    _localStorageService.savePreference(key: 'user', data: user.toString());
+    _localStorageService.savePreference(
+        key: 'user', data: json.encode(user!.toJson()));
   }
 
   @override
   UserResponse? getUser() {
-    final user = _localStorageService.getPreference(key: 'user');
+    final user =
+        jsonDecode(_localStorageService.getPreference(key: 'user') ?? '');
     if (user != null) {
-      return UserResponse.fromJson(jsonDecode(user) as Map<String, dynamic>);
+      return UserResponse.fromJson(user as Map<String, dynamic>);
     }
     return null;
   }
