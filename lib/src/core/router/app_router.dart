@@ -4,6 +4,7 @@ import 'package:fake_store/src/features/authentication/presentation/pages/welcom
 import 'package:fake_store/src/features/cart/presentation/pages/cart_page.dart';
 import 'package:fake_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:fake_store/src/features/home/presentation/pages/product_details_page.dart';
+import 'package:fake_store/src/features/wishlist/presentation/pages/wish_list_page.dart';
 import 'package:fake_store/src/shared/wrapper/main_page.dart';
 
 part 'app_router.gr.dart';
@@ -19,6 +20,7 @@ class AppRouter extends _$AppRouter {
           path: '/main',
           children: [
             AutoRoute(page: HomeRoute.page, initial: true, path: 'home'),
+            AutoRoute(page: WishListRoute.page, path: 'wishlist'),
             AutoRoute(page: CartRoute.page, path: 'cart'),
           ],
         ),
