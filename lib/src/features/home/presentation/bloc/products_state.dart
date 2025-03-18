@@ -6,5 +6,6 @@ class ProductsState with _$ProductsState {
     @Default(ViewState.idle) ViewState viewState,
     @Default('') String errorMessage,
     @Default([]) List<ProductResponse> products,
+    @Default([]) List<ProductResponse> wishListItems,
   }) = _Initial;
 }

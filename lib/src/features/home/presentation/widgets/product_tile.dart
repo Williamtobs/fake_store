@@ -11,6 +11,7 @@ class ProductTile extends StatelessWidget {
     required this.description,
     required this.price,
     this.isFavourite = true,
+    required this.addToFavourite,
   });
 
   final String imageUrl;
@@ -18,6 +19,7 @@ class ProductTile extends StatelessWidget {
   final String description;
   final String price;
   final bool isFavourite;
+  final VoidCallback addToFavourite;
 
   @override
   Widget build(BuildContext context) {
@@ -107,12 +109,15 @@ class ProductTile extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          Icon(
-            isFavourite ? Icons.favorite : Icons.favorite_border,
-            color: isFavourite
-                ? const Color.fromRGBO(235, 67, 53, 1)
-                : const Color.fromRGBO(203, 203, 212, 1),
-            size: 18.radius,
+          GestureDetector(
+            onTap: addToFavourite,
+            child: Icon(
+              isFavourite ? Icons.favorite : Icons.favorite_border,
+              color: isFavourite
+                  ? const Color.fromRGBO(235, 67, 53, 1)
+                  : const Color.fromRGBO(203, 203, 212, 1),
+              size: 18.radius,
+            ),
           ),
         ],
       ),

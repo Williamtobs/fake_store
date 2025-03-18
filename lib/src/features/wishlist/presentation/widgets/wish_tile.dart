@@ -10,12 +10,14 @@ class WishTile extends StatelessWidget {
     required this.title,
     required this.price,
     required this.addToCart,
+    required this.removeFromWishList,
   });
 
   final String imageUrl;
   final String title;
   final double price;
   final VoidCallback addToCart;
+  final VoidCallback removeFromWishList;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class WishTile extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
+          Image.network(
             imageUrl,
             width: 70.width,
             height: 70.height,
@@ -48,19 +50,27 @@ class WishTile extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
-                      title,
-                      style: GoogleFonts.urbanist(
-                        fontSize: 14.fontSize,
-                        fontWeight: FontWeight.w600,
-                        color: const Color.fromRGBO(0, 0, 0, 1),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.35,
+                      child: Text(
+                        title,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.urbanist(
+                          fontSize: 14.fontSize,
+                          fontWeight: FontWeight.w600,
+                          color: const Color.fromRGBO(0, 0, 0, 1),
+                        ),
                       ),
                     ),
                     const Spacer(),
-                    Icon(
-                      Icons.favorite,
-                      color: const Color.fromRGBO(235, 67, 53, 1),
-                      size: 17.height,
+                    GestureDetector(
+                      onTap: removeFromWishList,
+                      child: Icon(
+                        Icons.favorite,
+                        color: const Color.fromRGBO(235, 67, 53, 1),
+                        size: 17.height,
+                      ),
                     )
                   ],
                 ),

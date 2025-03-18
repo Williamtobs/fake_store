@@ -4,6 +4,7 @@ import 'package:fake_store/src/core/enums/view_state.dart';
 import 'package:fake_store/src/core/extensions/extensions.dart';
 import 'package:fake_store/src/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:fake_store/src/features/home/data/model/product_response.dart';
+import 'package:fake_store/src/features/home/presentation/bloc/products_bloc.dart';
 import 'package:fake_store/src/shared/widgets/add_to_cart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,8 @@ class ProductDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wishlist = context.watch<ProductsBloc>().state.wishListItems;
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(248, 247, 250, 1),
       body: Column(
@@ -42,11 +45,37 @@ class ProductDetailsPage extends StatelessWidget {
                     const Spacer(),
                     IconButton(
                       icon: Icon(
-                        Icons.favorite_border,
+                        wishlist
+                                .where((element) => element.id == product.id)
+                                .isNotEmpty
+                            ? Icons.favorite
+                            : Icons.favorite_border,
                         size: 18.radius,
                         color: const Color.fromRGBO(58, 58, 58, 1),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (wishlist
+                            .where((element) => element.id == product.id)
+                            .isNotEmpty) {
+                          context.read<ProductsBloc>().add(
+                                ProductsEvent.removeFromWishList(product),
+                              );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Product removed from wishlist'),
+                            ),
+                          );
+                        } else {
+                          context.read<ProductsBloc>().add(
+                                ProductsEvent.addToWishList(product),
+                              );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Product added to wishlist'),
+                            ),
+                          );
+                        }
+                      },
                     ),
                   ],
                 ),

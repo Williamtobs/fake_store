@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fake_store/src/features/authentication/data/models/user_response.dart';
+import 'package:fake_store/src/features/home/data/model/product_response.dart';
 import 'package:fake_store/src/services/local_storage_service.dart';
 
 abstract class UserStorageService {
@@ -17,6 +18,12 @@ abstract class UserStorageService {
   UserResponse? getUser();
 
   void clearToken();
+
+  void addToWishList(ProductResponse product);
+
+  List<ProductResponse>? getWishList();
+
+  void removeFromWishList(ProductResponse product);
 }
 
 class UserStorageServiceImpl implements UserStorageService {
@@ -46,10 +53,9 @@ class UserStorageServiceImpl implements UserStorageService {
 
   @override
   UserResponse? getUser() {
-    final user =
-        jsonDecode(_localStorageService.getPreference(key: 'user') ?? '');
+    final user = (_localStorageService.getPreference(key: 'user'));
     if (user != null) {
-      return UserResponse.fromJson(user as Map<String, dynamic>);
+      return UserResponse.fromJson(jsonDecode(user) as Map<String, dynamic>);
     }
     return null;
   }
@@ -57,5 +63,38 @@ class UserStorageServiceImpl implements UserStorageService {
   @override
   void clearToken() {
     _localStorageService.deletePreference(key: 'token');
+  }
+
+  @override
+  void addToWishList(ProductResponse product) {
+    final wishList = getWishList();
+    if (wishList == null) {
+      _localStorageService.savePreference(
+          key: 'wishList', data: json.encode([product.toJson()]));
+    } else {
+      wishList.add(product);
+      _localStorageService.savePreference(
+          key: 'wishList', data: json.encode(wishList));
+    }
+  }
+
+  @override
+  List<ProductResponse>? getWishList() {
+    final wishList = _localStorageService.getPreference(key: 'wishList');
+    if (wishList != null) {
+      return List<ProductResponse>.from(
+          jsonDecode(wishList).map((x) => ProductResponse.fromJson(x)));
+    }
+    return null;
+  }
+
+  @override
+  void removeFromWishList(ProductResponse product) {
+    final wishList = getWishList();
+    if (wishList != null) {
+      wishList.removeWhere((element) => element.id == product.id);
+      _localStorageService.savePreference(
+          key: 'wishList', data: json.encode(wishList));
+    }
   }
 }

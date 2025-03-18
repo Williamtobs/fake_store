@@ -18,7 +18,10 @@ class HomePage extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wishlist = context.watch<ProductsBloc>().state.wishListItems;
+
     useEffect(() {
+      context.read<ProductsBloc>().add(const ProductsEvent.started());
       context.read<CartBloc>().add(const CartEvent.started(true));
       return null;
     }, []);
@@ -44,8 +47,8 @@ class HomePage extends HookWidget {
           ),
           AppSpacing.setVerticalSpace(22),
           BlocBuilder<ProductsBloc, ProductsState>(
-            bloc: context.read<ProductsBloc>()
-              ..add(const ProductsEvent.started()),
+            // bloc: context.read<ProductsBloc>()
+            //   ..add(const ProductsEvent.started()),
             builder: (context, state) {
               if (state.viewState.isProcessing) {
                 return const Center(
@@ -80,6 +83,39 @@ class HomePage extends HookWidget {
                         title: product.title,
                         description: product.description,
                         price: product.price.toString(),
+                        isFavourite: (wishlist.isNotEmpty)
+                            ? state.products
+                                .where((element) => wishlist
+                                    .where((e) => e.id == element.id)
+                                    .isNotEmpty)
+                                .contains(product)
+                            : false,
+                        addToFavourite: () {
+                          if ((wishlist.isNotEmpty) &&
+                              state.products
+                                  .where((element) => wishlist
+                                      .where((e) => e.id == element.id)
+                                      .isNotEmpty)
+                                  .contains(product)) {
+                            context.read<ProductsBloc>().add(
+                                  ProductsEvent.removeFromWishList(product),
+                                );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Product removed from wishlist'),
+                              ),
+                            );
+                          } else {
+                            context.read<ProductsBloc>().add(
+                                  ProductsEvent.addToWishList(product),
+                                );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Product added to wishlist'),
+                              ),
+                            );
+                          }
+                        },
                       ),
                     );
                   },
