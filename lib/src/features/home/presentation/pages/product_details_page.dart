@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/core/constants/app_spacing.dart';
+import 'package:fake_store/src/core/enums/view_state.dart';
 import 'package:fake_store/src/core/extensions/extensions.dart';
+import 'package:fake_store/src/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:fake_store/src/features/home/data/model/product_response.dart';
 import 'package:fake_store/src/shared/widgets/add_to_cart_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 @RoutePage()
@@ -86,11 +89,43 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                 ),
                 AppSpacing.setVerticalSpace(24),
-                AddToCartButton(
-                  price: product.price,
-                  buttonText: 'Add to Cart',
-                  text: 'Price',
-                  onTap: () {},
+                BlocBuilder<CartBloc, CartState>(
+                  buildWhen: (previous, current) {
+                    if (previous.viewState.isProcessing &&
+                        current.viewState.isSuccess) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Product added to cart successfully'),
+                        ),
+                      );
+                    }
+                    return true;
+                  },
+                  builder: (context, state) {
+                    return AddToCartButton(
+                      price: product.price,
+                      buttonText: 'Add to Cart',
+                      text: 'Price',
+                      isLoading: state.viewState.isProcessing,
+                      onTap: () {
+                        context.read<CartBloc>().add(
+                              CartEvent.addToCart(
+                                {
+                                  'id': product.id,
+                                  'userId': 1,
+                                  'date': DateTime.now().toIso8601String(),
+                                  'products': [
+                                    {
+                                      'productId': product.id,
+                                      'quantity': 1,
+                                    }
+                                  ],
+                                },
+                              ),
+                            );
+                      },
+                    );
+                  },
                 )
               ],
             ),

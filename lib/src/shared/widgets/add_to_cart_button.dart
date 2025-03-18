@@ -12,6 +12,7 @@ class AddToCartButton extends StatelessWidget {
     this.color = const Color.fromRGBO(255, 232, 178, 1),
     required this.buttonText,
     required this.text,
+    this.isLoading = false,
   });
 
   final double price;
@@ -19,6 +20,7 @@ class AddToCartButton extends StatelessWidget {
   final Color color;
   final String buttonText;
   final String text;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class AddToCartButton extends StatelessWidget {
             child: CustomButton(
               text: buttonText,
               onPressed: onTap,
+              isLoading: isLoading,
             ),
           ),
         ],

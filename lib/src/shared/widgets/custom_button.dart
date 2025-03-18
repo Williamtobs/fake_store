@@ -10,12 +10,14 @@ class CustomButton extends StatelessWidget {
     this.color,
     this.textColor,
     this.onPressed,
+    this.isLoading = false,
   });
 
   final Color? color;
   final String text;
   final Color? textColor;
   final VoidCallback? onPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -29,14 +31,18 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(6.radius),
         ),
         child: Center(
-          child: Text(
-            text,
-            style: GoogleFonts.inter(
-              color: textColor ?? const Color(0xFFFFFFFF),
-              fontSize: 16.fontSize,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          child: !isLoading
+              ? Text(
+                  text,
+                  style: GoogleFonts.inter(
+                    color: textColor ?? const Color(0xFFFFFFFF),
+                    fontSize: 16.fontSize,
+                    fontWeight: FontWeight.w500,
+                  ),
+                )
+              : const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
         ),
       ),
     );

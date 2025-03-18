@@ -3,19 +3,26 @@ import 'package:fake_store/src/core/constants/app_spacing.dart';
 import 'package:fake_store/src/core/enums/view_state.dart';
 import 'package:fake_store/src/core/extensions/extensions.dart';
 import 'package:fake_store/src/core/router/app_router.dart';
+import 'package:fake_store/src/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:fake_store/src/features/home/presentation/bloc/products_bloc.dart';
 import 'package:fake_store/src/features/home/presentation/widgets/product_tile.dart';
 import 'package:fake_store/src/features/home/presentation/widgets/top_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends HookWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    useEffect(() {
+      context.read<CartBloc>().add(const CartEvent.started(true));
+      return null;
+    }, []);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(

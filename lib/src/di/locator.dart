@@ -5,6 +5,14 @@ import 'package:fake_store/src/features/authentication/data/repositories/auth_re
 import 'package:fake_store/src/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:fake_store/src/features/authentication/domain/usecases/get_user_use_case.dart';
 import 'package:fake_store/src/features/authentication/domain/usecases/login_use_case.dart';
+import 'package:fake_store/src/features/cart/data/client/cart_client.dart';
+import 'package:fake_store/src/features/cart/data/datasources/cart_data_source.dart';
+import 'package:fake_store/src/features/cart/data/repositories/cart_repository_impl.dart';
+import 'package:fake_store/src/features/cart/domain/repositories/cart_repository.dart';
+import 'package:fake_store/src/features/cart/domain/usecases/add_to_cart_use_case.dart';
+import 'package:fake_store/src/features/cart/domain/usecases/delete_cart_use_case.dart';
+import 'package:fake_store/src/features/cart/domain/usecases/get_cart_use_case.dart';
+import 'package:fake_store/src/features/cart/domain/usecases/update_carts_use_case.dart';
 import 'package:fake_store/src/features/home/data/client/products_client.dart';
 import 'package:fake_store/src/features/home/data/datasources/products__data_source.dart';
 import 'package:fake_store/src/features/home/data/repositories/products_repository_impl.dart';

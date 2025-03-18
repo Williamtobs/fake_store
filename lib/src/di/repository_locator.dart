@@ -7,5 +7,8 @@ Future<void> _initRepositoryLocator() async {
     )
     ..registerLazySingleton<ProductsRepository>(
       () => ProductsRepositoryImpl(locator()),
+    )
+    ..registerLazySingleton<CartRepository>(
+      () => CartRepositoryImpl(locator()),
     );
 }

@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/core/constants/app_spacing.dart';
+import 'package:fake_store/src/core/enums/view_state.dart';
 import 'package:fake_store/src/core/extensions/extensions.dart';
+import 'package:fake_store/src/core/helpers/helpers_function.dart';
 import 'package:fake_store/src/core/router/app_router.dart';
 import 'package:fake_store/src/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:fake_store/src/features/cart/presentation/bloc/cart_bloc.dart';
 import 'package:fake_store/src/features/cart/presentation/widgets/cart_tile.dart';
+import 'package:fake_store/src/features/home/presentation/bloc/products_bloc.dart';
 import 'package:fake_store/src/shared/widgets/add_to_cart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,6 +20,9 @@ class CartPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final products = context.watch<ProductsBloc>().state.products;
+    final cart = context.watch<CartBloc>().state.cart?.products;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -65,41 +72,132 @@ class CartPage extends StatelessWidget {
             ),
           ),
           AppSpacing.setVerticalSpace(39),
-          Expanded(
-            child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 5,
-                physics: const AlwaysScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Slidable(
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      extentRatio: 0.25,
-                      children: [
-                        SlidableAction(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16.width,
-                          ),
-                          onPressed: (val) {},
-                          backgroundColor: const Color.fromRGBO(204, 71, 78, 1),
-                          foregroundColor: Colors.white,
-                          icon: Icons.delete_outline,
+          BlocBuilder<CartBloc, CartState>(
+            buildWhen: (previous, current) {
+              if (previous.deleteViewState.isProcessing &&
+                  current.deleteViewState.isSuccess) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cart deleted successfully'),
+                  ),
+                );
+              }
+              return true;
+            },
+            builder: (context, state) {
+              if (state.viewState.isSuccess &&
+                  state.cart != null &&
+                  state.cart!.products.isEmpty) {
+                return const Expanded(
+                  child: Center(
+                    child: Text('No Items in Cart'),
+                  ),
+                );
+              }
+              return Expanded(
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.cart?.products.length,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      final carts = state.cart!.products[index];
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          motion: const ScrollMotion(),
+                          extentRatio: 0.25,
+                          children: [
+                            SlidableAction(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 16.width,
+                              ),
+                              onPressed: (val) {
+                                context.read<CartBloc>().add(
+                                      CartEvent.deleteCart(
+                                        carts.productId,
+                                      ),
+                                    );
+                              },
+                              backgroundColor:
+                                  const Color.fromRGBO(204, 71, 78, 1),
+                              foregroundColor: Colors.white,
+                              icon: Icons.delete_outline,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: CartTile(
-                      imgUrl: 'assets/images/product.png',
-                      title: '“Awaken, My Love!”',
-                      price: 100,
-                      quantity: 1,
-                      descreaseQuantity: () {},
-                      increaseQuantity: () {},
-                    ),
-                  );
-                }),
+                        child: CartTile(
+                          imgUrl: products
+                              .firstWhere(
+                                  (element) => element.id == carts.productId)
+                              .image,
+                          title: products
+                              .firstWhere(
+                                  (element) => element.id == carts.productId)
+                              .title,
+                          price: products
+                              .firstWhere(
+                                  (element) => element.id == carts.productId)
+                              .price,
+                          quantity: carts.quantity,
+                          descreaseQuantity: () {
+                            if (carts.quantity != 1) {
+                              context.read<CartBloc>().add(
+                                    CartEvent.updateCart({
+                                      'id': state.cart!.id,
+                                      'userId': state.cart!.userId,
+                                      'date':
+                                          state.cart!.date.toIso8601String(),
+                                      'products': [
+                                        {
+                                          'productId': carts.productId,
+                                          'quantity': carts.quantity - 1,
+                                        }
+                                      ],
+                                      '__v': state.cart!.v,
+                                    }),
+                                  );
+                            }
+                          },
+                          increaseQuantity: () {
+                            debugPrint('increase ${state.cart!.v}');
+                            context.read<CartBloc>().add(
+                                  CartEvent.updateCart({
+                                    'id': state.cart!.id,
+                                    'userId': state.cart!.userId,
+                                    'date': state.cart!.date.toIso8601String(),
+                                    'products': [
+                                      {
+                                        'productId': carts.productId,
+                                        'quantity': carts.quantity + 1,
+                                      }
+                                    ],
+                                    '__v': state.cart!.v,
+                                  }
+                                      // CartsResponse(
+                                      //   id: state.cart!.id,
+                                      //   userId: state.cart!.userId,
+                                      //   date: state.cart!.date,
+                                      //   products: [
+                                      //     CartProduct(
+                                      //       productId: carts.productId,
+                                      //       quantity: carts.quantity + 1,
+                                      //     )
+                                      //   ],
+                                      //   v: state.cart!.v,
+                                      // ),
+                                      ),
+                                );
+                          },
+                        ),
+                      );
+                    }),
+              );
+            },
           ),
+          // const Spacer(),
           AddToCartButton(
-            price: 79.99,
+            price: cart == null || cart.isEmpty
+                ? 0
+                : cartTotalPrice(products, cart),
             text: 'Cart Total',
             buttonText: 'Checkout',
             color: Colors.white,

@@ -4,70 +4,60 @@
 
 import 'dart:convert';
 
-List<CartsResponse> cartsResponseFromJson(String str) =>
-    List<CartsResponse>.from(
-        json.decode(str).map((x) => CartsResponse.fromJson(x)));
+CartsResponse cartsResponseFromJson(String str) =>
+    CartsResponse.fromJson(json.decode(str));
 
-String cartsResponseToJson(List<CartsResponse> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String cartsResponseToJson(CartsResponse data) => json.encode(data.toJson());
 
 class CartsResponse {
   int id;
   int userId;
-  List<Product> products;
+  DateTime date;
+  List<CartProduct> products;
+  int v;
 
   CartsResponse({
     required this.id,
     required this.userId,
+    required this.date,
     required this.products,
+    required this.v,
   });
 
   factory CartsResponse.fromJson(Map<String, dynamic> json) => CartsResponse(
         id: json["id"],
         userId: json["userId"],
-        products: List<Product>.from(
-            json["products"].map((x) => Product.fromJson(x))),
+        date: DateTime.parse(json["date"]),
+        products: List<CartProduct>.from(
+            json["products"].map((x) => CartProduct.fromJson(x))),
+        v: json["__v"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "userId": userId,
+        "date": date.toIso8601String(),
         "products": List<dynamic>.from(products.map((x) => x.toJson())),
+        "__v": v,
       };
 }
 
-class Product {
-  int id;
-  String title;
-  double price;
-  String description;
-  String category;
-  String image;
+class CartProduct {
+  int productId;
+  int quantity;
 
-  Product({
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.category,
-    required this.image,
+  CartProduct({
+    required this.productId,
+    required this.quantity,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        title: json["title"],
-        price: json["price"]?.toDouble(),
-        description: json["description"],
-        category: json["category"],
-        image: json["image"],
+  factory CartProduct.fromJson(Map<String, dynamic> json) => CartProduct(
+        productId: json["productId"],
+        quantity: json["quantity"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "price": price,
-        "description": description,
-        "category": category,
-        "image": image,
+        "productId": productId,
+        "quantity": quantity,
       };
 }

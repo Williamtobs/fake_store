@@ -11,5 +11,10 @@ void _initClients() {
       () => ProductsClient(
         locator(),
       ),
+    )
+    ..registerLazySingleton<CartClient>(
+      () => CartClient(
+        locator(),
+      ),
     );
 }
