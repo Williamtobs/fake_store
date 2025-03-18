@@ -29,14 +29,14 @@ class CustomNavBar extends StatelessWidget {
             ),
             (
               icon: tabsRouter.activeIndex == 1
-                  ? 'assets/icons/cart_filled.png'
-                  : 'assets/icons/cart.png',
+                  ? 'assets/icons/wishlist_filled.png'
+                  : 'assets/icons/wishlist.png',
               index: 1,
             ),
             (
               icon: tabsRouter.activeIndex == 2
-                  ? 'assets/icons/wishlist_filled.png'
-                  : 'assets/icons/wishlist.png',
+                  ? 'assets/icons/cart_filled.png'
+                  : 'assets/icons/cart.png',
               index: 2,
             ),
           ].map((tab) {

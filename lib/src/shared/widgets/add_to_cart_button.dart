@@ -9,18 +9,24 @@ class AddToCartButton extends StatelessWidget {
     super.key,
     required this.price,
     required this.onTap,
+    this.color = const Color.fromRGBO(255, 232, 178, 1),
+    required this.buttonText,
+    required this.text,
   });
 
   final double price;
   final VoidCallback onTap;
+  final Color color;
+  final String buttonText;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.all(24.radius),
-      decoration: const BoxDecoration(
-        color: Color.fromRGBO(255, 232, 178, 1),
+      decoration: BoxDecoration(
+        color: color,
       ),
       child: Row(
         children: [
@@ -29,7 +35,7 @@ class AddToCartButton extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Price',
+                text,
                 style: GoogleFonts.inter(
                   fontSize: 12.fontSize,
                   fontWeight: FontWeight.w500,
@@ -50,7 +56,7 @@ class AddToCartButton extends StatelessWidget {
           AppSpacing.setHorizontalSpace(24),
           Expanded(
             child: CustomButton(
-              text: 'Add to Cart',
+              text: buttonText,
               onPressed: onTap,
             ),
           ),

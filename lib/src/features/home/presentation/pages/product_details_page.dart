@@ -85,6 +85,8 @@ class ProductDetailsPage extends StatelessWidget {
                 AppSpacing.setVerticalSpace(24),
                 AddToCartButton(
                   price: 79.99,
+                  buttonText: 'Add to Cart',
+                  text: 'Price',
                   onTap: () {},
                 )
               ],

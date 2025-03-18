@@ -12,6 +12,7 @@ class MainPage extends StatelessWidget {
     return AutoTabsScaffold(
       routes: const [
         HomeRoute(),
+        CartRoute(),
       ],
       animationCurve: Curves.easeInCubic,
       bottomNavigationBuilder: (_, tabRouter) {
