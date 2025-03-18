@@ -2,10 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/features/authentication/presentation/pages/login_page.dart';
 import 'package:fake_store/src/features/authentication/presentation/pages/welcome_page.dart';
 import 'package:fake_store/src/features/cart/presentation/pages/cart_page.dart';
+import 'package:fake_store/src/features/home/data/model/product_response.dart';
 import 'package:fake_store/src/features/home/presentation/pages/home_page.dart';
 import 'package:fake_store/src/features/home/presentation/pages/product_details_page.dart';
 import 'package:fake_store/src/features/wishlist/presentation/pages/wish_list_page.dart';
 import 'package:fake_store/src/shared/wrapper/main_page.dart';
+import 'package:flutter/material.dart';
 
 part 'app_router.gr.dart';
 

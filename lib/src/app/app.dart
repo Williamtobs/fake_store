@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/core/router/app_router.dart';
 import 'package:fake_store/src/di/locator.dart';
 import 'package:fake_store/src/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:fake_store/src/features/home/presentation/bloc/products_bloc.dart';
 import 'package:fake_store/src/services/user_storage_service.dart';
 import 'package:fake_store/src/shared/widgets/dismiss_keyboard.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,12 @@ class App extends StatelessWidget {
                 locator(),
                 locator(),
               ),
-            )
+            ),
+            BlocProvider(
+              create: (context) => ProductsBloc(
+                locator(),
+              ),
+            ),
           ],
           child: MaterialApp.router(
             routerConfig: appRouter.config(deepLinkBuilder: (deepLink) {

@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:fake_store/src/core/constants/app_spacing.dart';
 import 'package:fake_store/src/core/extensions/extensions.dart';
+import 'package:fake_store/src/features/home/data/model/product_response.dart';
 import 'package:fake_store/src/shared/widgets/add_to_cart_button.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 @RoutePage()
 class ProductDetailsPage extends StatelessWidget {
-  const ProductDetailsPage({super.key});
+  const ProductDetailsPage({super.key, required this.product});
+
+  final ProductResponse product;
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +50,8 @@ class ProductDetailsPage extends StatelessWidget {
               ],
             ),
           ),
-          Image.asset(
-            'assets/images/product.png',
+          Image.network(
+            product.image,
             width: 267.width,
             height: 204.height,
           ),
@@ -63,7 +66,7 @@ class ProductDetailsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Xbox One Elite Series 2 Controller',
+                        product.title,
                         style: GoogleFonts.urbanist(
                           fontSize: 24.fontSize,
                           fontWeight: FontWeight.w600,
@@ -72,7 +75,7 @@ class ProductDetailsPage extends StatelessWidget {
                       ),
                       AppSpacing.setVerticalSpace(8),
                       Text(
-                        'Gaming Category',
+                        product.description,
                         style: GoogleFonts.urbanist(
                           fontSize: 14.fontSize,
                           fontWeight: FontWeight.w600,
@@ -84,7 +87,7 @@ class ProductDetailsPage extends StatelessWidget {
                 ),
                 AppSpacing.setVerticalSpace(24),
                 AddToCartButton(
-                  price: 79.99,
+                  price: product.price,
                   buttonText: 'Add to Cart',
                   text: 'Price',
                   onTap: () {},

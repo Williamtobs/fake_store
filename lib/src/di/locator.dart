@@ -5,6 +5,11 @@ import 'package:fake_store/src/features/authentication/data/repositories/auth_re
 import 'package:fake_store/src/features/authentication/domain/repositories/auth_repository.dart';
 import 'package:fake_store/src/features/authentication/domain/usecases/get_user_use_case.dart';
 import 'package:fake_store/src/features/authentication/domain/usecases/login_use_case.dart';
+import 'package:fake_store/src/features/home/data/client/products_client.dart';
+import 'package:fake_store/src/features/home/data/datasources/products__data_source.dart';
+import 'package:fake_store/src/features/home/data/repositories/products_repository_impl.dart';
+import 'package:fake_store/src/features/home/domain/repositories/products_repository.dart';
+import 'package:fake_store/src/features/home/domain/usecases/get_products_use_case.dart';
 import 'package:fake_store/src/services/local_storage_service.dart';
 import 'package:fake_store/src/services/user_storage_service.dart';
 import 'package:get_it/get_it.dart';
