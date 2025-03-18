@@ -63,6 +63,7 @@ class AuthenticationBloc
     final userStorageService = locator<UserStorageService>();
     userStorageService.clearToken();
     userStorageService.deleteUser();
+    userStorageService.clearAll();
     emit(const _Initial());
   }
 

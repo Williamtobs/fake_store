@@ -24,6 +24,8 @@ abstract class UserStorageService {
   List<ProductResponse>? getWishList();
 
   void removeFromWishList(ProductResponse product);
+
+  void clearAll();
 }
 
 class UserStorageServiceImpl implements UserStorageService {
@@ -96,5 +98,10 @@ class UserStorageServiceImpl implements UserStorageService {
       _localStorageService.savePreference(
           key: 'wishList', data: json.encode(wishList));
     }
+  }
+
+  @override
+  void clearAll() {
+    _localStorageService.clearAll();
   }
 }

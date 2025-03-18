@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: passwordController,
                     hintText: 'Enter your password',
                     obscureText: obsecureText.value,
-                    validator: context.validatePassword,
+                    validator: context.validateFieldNotEmpty,
                     textCapitalization: TextCapitalization.none,
                     suffixIcon: UnconstrainedBox(
                       child: GestureDetector(
@@ -100,6 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                   AppSpacing.setVerticalSpace(30),
                   CustomButton(
                     text: 'Login',
+                    isLoading: state.viewState.isProcessing,
                     onPressed: () {
                       if (formKey.currentState!.validate()) {
                         context.read<AuthenticationBloc>().add(

@@ -63,22 +63,18 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     _UpdateCart event,
     Emitter<CartState> emit,
   ) async {
-    emit(state.copyWith(viewState: ViewState.processing));
     final result = await _updateCartsUseCase(event.cartResponse);
     result.fold(
       (failure) {
         emit(
           state.copyWith(
-            viewState: ViewState.error,
             errorMessage: failure.message ?? 'Something went wrong',
           ),
         );
       },
       (data) {
         emit(
-          state.copyWith(
-            viewState: ViewState.success,
-          ),
+          state.copyWith(),
         );
       },
     );
