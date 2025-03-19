@@ -127,7 +127,7 @@ The application uses the Fake Store API for product data and authentication. The
 
 4. Manage your cart and view the total price.
 
-5. Add products to your wishlist and access them anytime.
+5. Add and remove products from your wishlist and access them anytime.
 
 ## Loom Video Explanation
 
