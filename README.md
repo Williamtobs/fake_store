@@ -129,9 +129,6 @@ The application uses the Fake Store API for product data and authentication. The
 
 5. Add and remove products from your wishlist and access them anytime.
 
-## Loom Video Explanation
-
-(Optional) A Loom video is included to explain the project and demonstrate key features.
 
 ## Estimated Time to Complete
 
