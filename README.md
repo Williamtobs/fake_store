@@ -98,8 +98,8 @@ The project follows a clean and scalable architecture with separation of concern
 
 1. Clone the repository:
 ```
-git clone <repo_url>
-cd e_commerce_app
+git clone [<repo_url>](https://github.com/Williamtobs/fake_store.git)
+cd fake_store
 ```
 2. Install dependencies:
 ```
@@ -115,7 +115,7 @@ flutter run
 ```
 ## API Usage
 
-The application uses the Fake Store API for product data and authentication. The login API is used to authenticate users, and product APIs are used to fetch product details and manage the cart.
+The application uses the [Fake Store API](https://fakestoreapi.com/docs) for authentication, product, and cart data. The login API is used to authenticate users, and product APIs are used to fetch product details and cart APIs are used to fetch cart and manage it.
 
 ### How to Use
 
